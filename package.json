@@ -1,0 +1,16 @@
+{
+  "name": "cache",
+  "version": "0.0.1",
+  "description": "a very simple disk cache",
+  "license": "MIT",
+  "url": "https://github.com/mtgjson/cache.git",
+  "repository": "https://github.com/mtgjson/cache.git",
+  "author": {
+    "name": "Sergio Moura",
+    "email": "sergio@moura.us",
+    "url": "https://github.com/lsmoura"
+  },
+  "dependencies": {
+    "promise": "git+https://github.com/mtgjson/promise.git"
+  }
+}
