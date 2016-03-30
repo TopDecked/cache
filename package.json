@@ -1,6 +1,6 @@
 {
   "name": "cache",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "a very simple disk cache",
   "license": "MIT",
   "url": "https://github.com/mtgjson/cache.git",
