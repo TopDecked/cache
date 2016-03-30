@@ -1,7 +1,7 @@
 cache
 =====
 
-Simple cache library created for (mtgjson)[http://mtgjson.com]
+Simple cache library created for [mtgjson](http://mtgjson.com)
 
 author
 -----
