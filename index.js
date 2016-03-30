@@ -19,6 +19,8 @@ module.exports = function(cachedir, options) {
 	var debug;
 	var compress;
 
+	options = options || {};
+
 	if (options.debug) {
 		debug = options.debug || function() {};
 	}
@@ -32,9 +34,10 @@ module.exports = function(cachedir, options) {
 	/**
 	 * Function to get the value from the disk or grab and store if needed.
 	 * @param key String the value to be retrieved from the disk
-	 * @param fillFn Function (context, callback) to produce the value if no value exists on cache.
+	 * @param fillFn Function (callback) to produce the value if no value exists on cache.
 	 *              The Callback function must be called with the data to be cached and to the
 	 *              returned promise be resolved.
+	                the cache context is passed as `this`.
 	 * @return promise object that will be fulfilled with the data from the cache, when available.
 	 */
 	var getFunc = function(key, fillFn) {
