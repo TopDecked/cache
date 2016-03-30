@@ -135,10 +135,10 @@ module.exports = function(cachedir, options) {
 				});
 			}
 			else if (err.code == 'ENOENT') {
-				promise.resolve();
+				ret.resolve();
 			}
 			else {
-				promise.reject('Error erasing file: ' + err.code);
+				ret.reject('Error erasing file: ' + err.code);
 			}
 		});
 
