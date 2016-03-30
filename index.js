@@ -131,7 +131,7 @@ module.exports = function(cachedir, options) {
 		fs.stat(file, function(err, stat) {
 			if (err == null) {
 				fs.unlink(file, function() {
-					promise.resolve();
+					ret.resolve();
 				});
 			}
 			else if (err.code == 'ENOENT') {
