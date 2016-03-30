@@ -44,18 +44,17 @@ module.exports = function(cachedir, options) {
 		var ret = new promise();
 		var file = cachenameFunc(key);
 
-		var compressPromise = new promise();
-		compressPromise.done(ret);
-
-		fs.readFile(file, 'utf8', function(err, data) {
+		fs.readFile(file, function(err, data) {
 			if (err) {
 				if (!fillFn) {
 					ret.reject('no fill function');
 					return;
 				}
 				fillFn.call(context, function(results) {
-					writeFunc(key, results);
-					ret.resolve(results);
+					writeFunc(key, results)
+					.done(function() {
+						ret.resolve(results);
+					});
 				});
 			}
 			else {
@@ -63,14 +62,16 @@ module.exports = function(cachedir, options) {
 				 * Resolve promise immediately with the 
 				 * data from the cache. 
 				 */
+				var loadPromise = new promise();
+				loadPromise.done(ret);
 				if (options.compress === true) {
 					zlib.gunzip(data, function(err, data) {
-						if (err) compressPromise.reject(err);
-						else compressPromise.resolve(data);
+						if (err) loadPromise.reject(err);
+						else loadPromise.resolve(data);
 					});
 				}
 				else {
-					compressPromise.resolve(data);
+					loadPromise.resolve(data);
 				}
 			}
 		});
@@ -87,30 +88,32 @@ module.exports = function(cachedir, options) {
 		var file = cachenameFunc(key);
 		var ret = new promise();
 
-		var compressPromise = new promise();
+		var save = new promise();
 
-		compressPromise.done(function(err, data) {
+		save.done(function(err, data) {
 			if (err) { ret.reject(err); return; }
 
 			fs.writeFile(file, data, function(err) {
 				if (err) {
 					debug("Cache write error: " + err);
+					ret.reject(err);
+					return;
 				}
 				ret.resolve();
 			});
 		});
 
 		if (options.compress === true) {
-			actualData = zlib.gzip(
+			zlib.gzip(
 				data,
-				function(err, data) {
-					if (err) compressPromise.reject(err, data);
-					else compressPromise.resolve(data);
+				function(err, compData) {
+					if (err) save.reject(err, compData);
+					else save.resolve(compData);
 				}
 			);
 		}
 		else {
-			compressPromise.resolve(data);
+			save.resolve(data);
 		}
 
 		return (ret);
