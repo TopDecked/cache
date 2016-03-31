@@ -4,6 +4,7 @@
   "description": "a very simple disk cache",
   "license": "MIT",
   "url": "https://github.com/mtgjson/cache.git",
+  "main": "lib/index.js",
   "repository": "https://github.com/mtgjson/cache.git",
   "author": {
     "name": "Sergio Moura",
